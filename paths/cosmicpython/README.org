@@ -1,0 +1,38 @@
+#+title: Readme
+
+* CosmicPython
+una guia de estudio
+** Explorando el dominio
+Las siguientes son las notas con la Mutual Humanes:
+
+#+begin_quote
+La Mutual Personas nos pidió hacer un sistema para registrar los socios. A nosotres nos toca hacer la api, mientras una compañera realizará el frontend que consumirá esa API. Los datos que necesitan registrar son:
+
+- Nombre
+- Apellido
+- DNI
+- Nro de socie
+- Email
+- Teléfono
+- Dirección
+- Codigo Postal
+- Socio Pleno o General
+- El número de socio está compuesto por un número.
+- El socio puede ser Pleno o General, no ambos al mismo tiempo
+
+#+end_quote
+
+
+** Ejercicios 1. Escribir unitest sobre este dominio
+Antes voy a hacer algo de BDD. Definir el comportamiento de la API en gherkin
+#+begin_src
+Feature: Add a new associate
+  As a user I send a graphql post request
+  and a user is created in the DB and returned as response
+
+  Scenario: Add user happy path
+    Given a user with permissions
+    When post a graphql mutation
+    Then a new associated is created in DB
+    Then the mutation responds with the new associate
+#+end_src
