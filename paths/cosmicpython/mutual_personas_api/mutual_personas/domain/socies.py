@@ -1,7 +1,7 @@
 import uuid
 from random import randint
-class Socies:
-    def __int__(self,
+class Socie:
+    def __init__(self,
                 nombre: str,
                 apellido:str,
                 dni: int,
@@ -21,8 +21,8 @@ class Socies:
         self.direccion = direccion
         self.codigo_postal = codigo_postal
         self.tipo_de_socio = tipo_de_socio
-        self.nro_uuid: nro_uuid if nro_uuid is not None else uuid.uuid1()
-        self.nro_de_socio = nro if nro is not None else randint(1,1000)
+        self.nro_uuid= nro_uuid if nro_uuid is not None else uuid.uuid1()
+        self.nro_de_socie = nro if nro is not None else randint(1, 1000)
 
 
 

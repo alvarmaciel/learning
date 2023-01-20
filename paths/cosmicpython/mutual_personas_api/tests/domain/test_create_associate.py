@@ -1,6 +1,6 @@
 import pytest
 import uuid
-from mutual_personas.domain.socies import Socies
+from mutual_personas.domain.socies import Socie
 
 def test_add_socie():
     """Variables de instancia de los socies
@@ -28,15 +28,16 @@ def test_add_socie():
     uuid_number = uuid.uuid1()
 
     # When
-    nuevo_socie = Socies.add(nombre, apellido, dni, email, telefono, direccion, codigo_postal, tipo_de_socio, uuid_number)
+    nuevo_socie = Socie(nombre, apellido, dni, email, telefono, direccion, codigo_postal, tipo_de_socio, uuid_number)
+
     # Then
     assert nuevo_socie.nombre == nombre
     assert nuevo_socie.apellido == apellido
     assert nuevo_socie.dni == dni
-    assert isinstance(nuevo_socie.numero_de_socie, int)
+    assert isinstance(nuevo_socie.nro_de_socie, int)
     assert nuevo_socie.email == email
     assert nuevo_socie.telefono == telefono
     assert nuevo_socie.direccion == direccion
     assert nuevo_socie.codigo_postal == codigo_postal
     assert nuevo_socie.tipo_de_socio == tipo_de_socio
-    assert isinstance(nuevo_socie.uuid_number, uuid.UUID)
+    assert isinstance(nuevo_socie.nro_uuid, uuid.UUID)
