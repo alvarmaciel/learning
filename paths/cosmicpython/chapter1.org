@@ -3,17 +3,17 @@ una guia de estudio
 * Explorando el dominio
 Las siguientes son las notas con la Mutual Humanes:
 La Mutual Personas nos pidió hacer un sistema para registrar los socios. A nosotres nos toca hacer la api, mientras una compañera realizará el frontend que consumirá esa API. Los datos que necesitan registrar son:
-Nombre
-Apellido
-DNI
-Nro de socie
-Email
-Teléfono
-Dirección
-Codigo Postal
-Socio Pleno o General
-El número de socio está compuesto por un número.
-El socio puede ser Pleno o General, no ambos al mismo tiempo
-Ejercicios 1. Escribir unitest sobre este dominio
-Antes voy a hacer algo de BDD. Definir el comportamiento de la API en gherkin
+- Nombre
+- Apellido
+- DNI
+- Nro de socie
+- Email
+- Teléfono
+- Dirección
+- Codigo Postal
+- Socio Pleno o General
+- El número de socio está compuesto por un número.
+- El socio puede ser Pleno o General, no ambos al mismo tiempo
+** Ejercicios 1. Escribir unitest sobre este dominio
+- Antes voy a hacer algo de BDD. Definir el comportamiento de la API en gherkin
 Feature: Agregar un usuario nuevo
