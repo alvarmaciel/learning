@@ -1,5 +1,7 @@
+from typing import Optional
 import uuid
 from random import randint
+
 class Socie:
     def __init__(self,
                 nombre: str,
@@ -10,7 +12,7 @@ class Socie:
                 direccion: str,
                 codigo_postal: str,
                 tipo_de_socio: int,
-                nro_uuid: uuid = None,
+                nro_uuid: Optional[uuid] = None,
                 nro: int =None,
                 ):
         self.nombre = nombre
