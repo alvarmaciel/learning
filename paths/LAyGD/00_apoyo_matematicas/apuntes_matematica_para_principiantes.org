@@ -30,7 +30,7 @@
   | x |  0 | 1 | 2 |
   | y | -2 | 1 | 4 |
 
-#+BEGIN_SRC python :results file :exports results code
+#+BEGIN_SRC python :results file :exports results :noweb no
 import matplotlib.pyplot as plt
 
 
