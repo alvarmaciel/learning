@@ -3,7 +3,7 @@
 :END:
 #+title: Apoyo en matematica
 
-* Apoyo en [[id:c129223c-22b3-4d5c-a0c0-44f7a1fdb598][matematica]]
+
 - Como generar bloques de codigo en [[id:0a61c2e1-e8b6-4076-80c6-6b09c8a4ecf5][emacs]] para [[id:c129223c-22b3-4d5c-a0c0-44f7a1fdb598][matematica]] https://acaird.github.io/2015/09/04/plots-from-org-mode-tables
 ** [[id:c129223c-22b3-4d5c-a0c0-44f7a1fdb598][matematica]] para principiantes
 :PROPERTIES:
@@ -30,7 +30,7 @@
   | x |  0 | 1 | 2 |
   | y | -2 | 1 | 4 |
 
-#+BEGIN_SRC python :results file :exports results
+#+BEGIN_SRC python :results file :exports results code
 import matplotlib.pyplot as plt
 
 
