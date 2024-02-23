@@ -1,80 +1,62 @@
+:PROPERTIES:
+:ID:       4d4c20c1-412c-40f8-b1e0-85022bfb7827
+:END:
+#+title: Apoyo en matematica
 
-# Table of Contents
+* Apoyo en [[id:c129223c-22b3-4d5c-a0c0-44f7a1fdb598][matematica]]
+- Como generar bloques de codigo en [[id:0a61c2e1-e8b6-4076-80c6-6b09c8a4ecf5][emacs]] para [[id:c129223c-22b3-4d5c-a0c0-44f7a1fdb598][matematica]] https://acaird.github.io/2015/09/04/plots-from-org-mode-tables
+** [[id:c129223c-22b3-4d5c-a0c0-44f7a1fdb598][matematica]] para principiantes
+:PROPERTIES:
+:NOTER_DOCUMENT: ../../../../Biblioteca de calibre/Miriam/Matematica-ingresantes (35)/Matematica-ingresantes - Miriam.pdf
+:NOTER_PAGE: 15
+:END:
+*** Modelos Funcionales
+- ¿Qué es una función?: Es una *relación* entre dos o más variables, cada una de estas definida dentro de un conjunto determinado. Con la condición de que para cada valor de la variable de entrada le corresponda uno y solo uno de salida
+- [[https://youtu.be/Ll7xfe3HoZE][Funciones, relaciones y conjuntos]]
+  - Relación :: Correspondncia entre elementos de dos conjuntos. La formulación de una exporesión que uno dos o más elementos entre si
+  - Función ::  Una relación en los que a cada valor de la variable independiente le corresponde un UNICO valor de la varible dependiente
+  - \(f(x)\) :: La funcion que le vamos a a hacer a la \(x\)
+  - \(f(x)\) = \(y\)
 
-1.  [Apoyo en matematica](#org990ec47)
-    1.  [matematica para principiantes](#orgc2db313)
-        1.  [Modelos Funcionales](#orgba3ef1f)
-        2.  [Modelos lineales](#org9662186)
+- [[https://youtu.be/A7OrJ8IlIeE][Representación de las funciones]]
+- [[https://youtu.be/H40lcwlgPMk][Dominio y rango de la función]]
+  - Dominio :: Números comprendidos por la variable independiente
 
+  - Rango :: Números comprendidos por la variable dependiente
+*** Modelos lineales
+- https://youtu.be/AoZpzAoC1Qg
+- La ecuación lineal siempre tienen las variables elevadas a la 1
+- \(y = 3x-2\)
+  | x |  0 | 1 | 2 |
+  | y | -2 | 1 | 4 |
 
-
-<a id="org990ec47"></a>
-
-# Apoyo en [matematica](matematica.md)
-
--   Como generar bloques de codigo en [emacs](20230318192052-emacs.md) para [matematica](matematica.md) <https://acaird.github.io/2015/09/04/plots-from-org-mode-tables>
-
-
-<a id="orgc2db313"></a>
-
-## [matematica](matematica.md) para principiantes
-
-
-<a id="orgba3ef1f"></a>
-
-### Modelos Funcionales
-
--   ¿Qué es una función?: Es una **relación** entre dos o más variables, cada una de estas definida dentro de un conjunto determinado. Con la condición de que para cada valor de la variable de entrada le corresponda uno y solo uno de salida
--   [Funciones, relaciones y conjuntos](https://youtu.be/Ll7xfe3HoZE)
-    -   **Relación:** Correspondncia entre elementos de dos conjuntos. La formulación de una exporesión que uno dos o más elementos entre si
-    -   **Función:** Una relación en los que a cada valor de la variable independiente le corresponde un UNICO valor de la varible dependiente
-    -   **$f(x)$:** La funcion que le vamos a a hacer a la $x$
-    -   $f(x)$ = $y$
-
--   [Representación de las funciones](https://youtu.be/A7OrJ8IlIeE)
--   [Dominio y rango de la función](https://youtu.be/H40lcwlgPMk)
-    -   **Dominio:** Números comprendidos por la variable independiente
-    
-    -   **Rango:** Números comprendidos por la variable dependiente
+#+BEGIN_SRC python :results file :exports results
+import matplotlib.pyplot as plt
 
 
-<a id="org9662186"></a>
+# Define the data
+x = [0, 1, 2]
+y = [-2, 1, 4]
 
-### Modelos lineales
+# Plot the data
+plt.figure(figsize=(8, 6))
+plt.plot(x, y, marker='o', linestyle='-', color='b')
 
--   <https://youtu.be/AoZpzAoC1Qg>
--   La ecuación lineal siempre tienen las variables elevadas a la 1
--   $y = 3x-2$
-    
-    <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-    
-    
-    <colgroup>
-    <col  class="org-left" />
-    
-    <col  class="org-right" />
-    
-    <col  class="org-right" />
-    
-    <col  class="org-right" />
-    </colgroup>
-    <tbody>
-    <tr>
-    <td class="org-left">x</td>
-    <td class="org-right">0</td>
-    <td class="org-right">1</td>
-    <td class="org-right">2</td>
-    </tr>
-    
-    
-    <tr>
-    <td class="org-left">y</td>
-    <td class="org-right">-2</td>
-    <td class="org-right">1</td>
-    <td class="org-right">4</td>
-    </tr>
-    </tbody>
-    </table>
+# Add title and labels
+plt.title('Plot of y = 3x - 2')
+plt.xlabel('x')
+plt.ylabel('y')
 
-![img](modelos_lineales.png)
+# Show grid
+plt.grid(True)
 
+# Save the plot as a PNG file
+plt.savefig('modelos_lineales.png')
+
+# Display the plot in a way that Org mode can capture
+plt.close()  # This ensures the figure is closed after saving and before Org tries to display it
+return('modelos_lineales.png')
+#+END_SRC
+
+#+RESULTS:
+[[file:modelos_lineales.png]]
