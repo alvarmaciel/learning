@@ -70,7 +70,9 @@
     </tr>
     </tbody>
     </table>
-
+    
+    
+```python
     import matplotlib.pyplot as plt
     
     
@@ -96,6 +98,6 @@
     # Display the plot in a way that Org mode can capture
     plt.close()  # This ensures the figure is closed after saving and before Org tries to display it
     return('modelos_lineales.png')
-
+```
 ![img](modelos_lineales.png)
 
