@@ -30,7 +30,7 @@
   | x |  0 | 1 | 2 |
   | y | -2 | 1 | 4 |
 
-#+BEGIN_SRC python :results file :exports results :noweb no
+#+BEGIN_SRC python :results code file :exports results
 import matplotlib.pyplot as plt
 
 
@@ -59,4 +59,6 @@ return('modelos_lineales.png')
 #+END_SRC
 
 #+RESULTS:
+#+begin_src python
 [[file:modelos_lineales.png]]
+#+end_src
