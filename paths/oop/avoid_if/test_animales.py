@@ -1,5 +1,5 @@
 import pytest
-from animales import Perro, Gato, Pájaro
+from .animales import Perro, Gato, Pajaro
 
 """
 Crea una jerarquía de clases para representar diferentes tipos de animales: Perro, Gato y Pájaro.
@@ -16,10 +16,10 @@ def test_hablar_gato():
     assert gato.hablar() == "Miau"
 
 def test_hablar_pajaro():
-    pajaro = Pájaro()
+    pajaro = Pajaro()
     assert pajaro.hablar() == "Pío"
 
 def test_hablar_varios_animales():
-    animales = [Perro(), Gato(), Pájaro()]
+    animales = [Perro(), Gato(), Pajaro()]
     sonidos = [animal.hablar() for animal in animales]
     assert sonidos == ["Guau", "Miau", "Pío"]
