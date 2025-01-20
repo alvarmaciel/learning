@@ -1,7 +1,7 @@
 #+title: Readme
 
 * CosmicPython
-A study Guide. I will read and make every excercise of [Architecture Patterns with Python(A.K.A: Cosmic Puthon)](https://www.cosmicpython.com/).
+A study Guide. I will read and make every excercise of [[https://www.cosmicpython.com/][Architecture Patterns with Python (A.K.A: Cosmic Puthon)]].
 
 ** Constrains
 - Every test will be made using pytest
