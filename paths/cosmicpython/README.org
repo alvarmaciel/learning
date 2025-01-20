@@ -11,3 +11,5 @@ A study Guide. I will read and make every excercise of [Architecture Patterns wi
 - I will not use LLM's for this project. All old school read and search
 ** Notes.
 All notes will be made using an orgmode notebook on this repo.
+** Repo Management
+- One branch for every chapter. Same nomenclature as the book
