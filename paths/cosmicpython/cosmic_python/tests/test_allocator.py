@@ -39,70 +39,114 @@ stock. We allocate to warehouse stock in preference to shipment batches. We
 allocate to shipment batches in order of which has the earliest ETA.
 
 """
-from allocator.domain.models import LineItem, Batch
-from datetime import date
+from allocator.domain.models import LineItem, Batch, allocate
+from datetime import date, timedelta
 import pytest
 
-# @pytest.fixture
-# def give_batch(sku:str, quantity: int, in_warehouse: bool, eta:int) -> Batch:
-#     return Batch(sku="sku", quantity=quantity, in_warehouse=in_warehouse, eta=eta)
+@pytest.fixture
+def given_a_batch_and_order_line_item():
+
+    def _given_a_batch_and_order_line_item(sku, batch_qty, line_qty):
+        return(
+            LineItem("order_id", sku=sku, quantity=line_qty),
+            Batch("batch_id", sku=sku, quantity=batch_qty, eta=date.today())
+        )
+    return _given_a_batch_and_order_line_item
+
 
 # allocate order lines to batches
-def test_allocate_order_lines_to_batches():
+def test_allocate_order_lines_to_batches(given_a_batch_and_order_line_item):
     # Setup
-    # get orders
-    order_line_item = LineItem("order-ref", "SMALL-TABLE", 2)
-    # get bacthes
-    batch = Batch('batch_001', "SMALL-TABLE", quantity=20, eta=date.today())
+    # get line items and batch
+    order_line_item, batch = given_a_batch_and_order_line_item(sku="SMALL-TABLE",
+                                                               batch_qty=20,
+                                                               line_qty=2)
     # Excercise
     # Allocate line itens
     batch.allocate(order_line_item)
     # Verify
-    assert batch.quantity == 18
+    assert batch.available_quantity == 18
 
-# can't allocate to a batch with less available quantity
-# def test_cant_allocate_to_smaller_batches():
-#     # Setup
-#     # get orders
-#     order = Order([LineItem(sku="SMALL-TABLE", quantity= 2)])
-#     # get bacthes
-#     batches = [give_batch("SMALL-TABLE", 1, False, 10)]
-#     # Excercise
-#     # Allocate line itens
-#     allocator(order, batches)
-#     # Verify
-#     batches[0].quantity = 1
 
-# # can't allocate the same line twice
-# def cant_allocate_the_same_line_twice():
-#     # Setup
-#     # get orders
-#     order = Order([LineItem(sku="SMALL-TABLE", quantity= 2)])
-#     # get bacthes
-#     batches = [give_batch("SMALL-TABLE", 20, False, 10)]
-#     # Excercise
-#     # Allocate line itens
-#     allocator(order, batches)
-#     allocator(order, batches)
-#     # Verify
-#     batch[0].quantity = 18
+# can or can´t allocate to a batch with diferents available quantity
+@pytest.mark.parametrize("batch_lin_qty, expected",
+                    [
+                        ([2, 1],True),
+                        ([1, 2], False),
+                        ([1, 1], True)
+                    ]
+                         )
+def test_allocate_different_quantities(given_a_batch_and_order_line_item, batch_lin_qty, expected):
+    # Setup
+    # get line items and batch
+    order_line_item, batch = given_a_batch_and_order_line_item(sku="SMALL-TABLE",
+                                                               batch_qty=batch_lin_qty[0],
+                                                               line_qty=batch_lin_qty[1])
+    assert batch.can_allocate(order_line_item) == expected
 
-# # Allocate first in warehause, then in batches by ETA
-# def allocate_first_in_warehouse():
-#     # Setup
-#     # get orders
-#     orders = [Order([LineItem(sku="SMALL-TABLE", quantity=2)]),
-#               Order([LineItem(sku="BLUE-CUSHION", quantity=1)])]
-#     # get bacthes
-#     batches = [give_batch("SMALL-TABLE", 20, False, 10),
-#                give_batch("SMALL-TABLE", 20, True, 10),
-#                give_batch("BLUE-CUSHION", 10, False, 10),
-#                give_batch("BLUE-CUSHION", 10, False, 9),]
-#     # Excercise
-#     # Allocate line itens
-#     allocator(order, batchess)
-#     # Verify
-#     batches[0].quantity = 20
-#     batches[1].quantity = 18
-#     batches[2].quantity = 10
-#     batches[3].quantity = 9
+
+def test_cant_allocate_if_sku_not_match():
+    # setup
+    order_line_item = LineItem("order_001", sku="SMALL-TABLE", quantity=3)
+    batch = Batch("batch_001", sku="BIG_TABLE", quantity=2, eta=date.today())
+    # Excercise
+    assert not batch.can_allocate(order_line_item)
+
+
+def test_can_only_deallocate_allocated_lines(given_a_batch_and_order_line_item):
+    order_line_item, batch = given_a_batch_and_order_line_item(sku="SMALL-TABLE",
+                                                               batch_qty=20,
+                                                               line_qty=2)
+    batch.deallocate(order_line_item)
+    assert batch.available_quantity == 20
+
+
+# allocate is idempotent
+def test_cant_allocate_the_same_line_twice(given_a_batch_and_order_line_item):
+    # Setup
+    # get line items and batch
+    order_line_item, batch = given_a_batch_and_order_line_item(sku="SMALL-TABLE",
+                                                               batch_qty=20,
+                                                               line_qty=2)
+    # Excercise
+    # Allocate line itens
+    batch.allocate(order_line_item)
+    batch.allocate(order_line_item)
+    # Verify
+    assert batch.available_quantity == 18
+
+
+# Allocate first in stock against shipments
+def test_prefers_current_stock_batches_to_shipments():
+    tomorrow = timedelta(days=1)
+    in_stock_batch = Batch("in-stock-batch", "RETRO-CLOCK", 100, eta=None)
+    shipment_batch = Batch("shipment-batch", "RETRO-CLOCK", 100, eta=date.today()+tomorrow)
+    order_line = LineItem("oref", "RETRO-CLOCK", 10)
+
+    allocate(order_line, [in_stock_batch, shipment_batch])
+
+    assert in_stock_batch.available_quantity == 90
+    assert shipment_batch.available_quantity == 100
+
+
+def test_prefers_earlier_batches():
+    earliest = Batch("shipment-batch", "RETRO-CLOCK", 100, eta=date.today())
+    medium = Batch("shipment-batch", "RETRO-CLOCK", 100, eta=date.today()+timedelta(days=1))
+    latest = Batch("shipment-batch", "RETRO-CLOCK", 100, eta=date.today()+timedelta(days=2))
+    order_line = LineItem("oref", "RETRO-CLOCK", 10)
+
+    allocate(order_line,[earliest, medium, latest])
+
+    assert earliest.available_quantity == 90
+    assert medium.available_quantity == 100
+    assert latest.available_quantity == 100
+
+def test_returns_allocated_batch_ref():
+    tomorrow = timedelta(days=1)
+    in_stock_batch = Batch("in-stock-batch", "RETRO-CLOCK", 100, eta=None)
+    shipment_batch = Batch("shipment-batch", "RETRO-CLOCK", 100, eta=date.today()+tomorrow)
+    order_line = LineItem("oref", "RETRO-CLOCK", 10)
+
+    allocations = allocate(order_line, [in_stock_batch, shipment_batch])
+
+    assert allocations == in_stock_batch.reference
