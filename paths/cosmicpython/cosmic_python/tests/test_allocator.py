@@ -39,7 +39,7 @@ stock. We allocate to warehouse stock in preference to shipment batches. We
 allocate to shipment batches in order of which has the earliest ETA.
 
 """
-from allocator.domain.models import LineItem, Batch, allocate
+from allocator.domain.models import LineItem, Batch, allocate, OutOfStock
 from datetime import date, timedelta
 import pytest
 
@@ -150,3 +150,10 @@ def test_returns_allocated_batch_ref():
     allocations = allocate(order_line, [in_stock_batch, shipment_batch])
 
     assert allocations == in_stock_batch.reference
+
+def test_raise_out_of_stock_exception_if_can_not_allocate():
+    batch = Batch("batch_1", "SMALL-FORK", 10, eta=date.today())
+    allocate(LineItem("order_1", "SMALL-FORK", 10),[batch])
+    assert batch.available_quantity == 0
+    with pytest.raises(OutOfStock, match="SMALL-FORK"):
+        allocate(LineItem("order_2", "SMALL-FORK", 1),[batch])

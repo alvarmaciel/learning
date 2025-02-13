@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import date
 
+class OutOfStock(Exception):
+    pass
 
 @dataclass(frozen=True)
 class LineItem:
@@ -51,10 +53,15 @@ class Batch:
         return self._purchased_quantity - self.allocated_quantity
 
     def can_allocate(self, order_line_item: LineItem) -> bool:
-        return self.sku == order_line_item.sku and self._purchased_quantity >= order_line_item.quantity
+        return self.sku == order_line_item.sku and self.available_quantity >= order_line_item.quantity
 
 
 def allocate(line: LineItem, batches: [Batch]) -> str:
-    batch = next(batch for batch in sorted(batches) if batch.can_allocate(line))
-    batch.allocate(line)
-    return batch.reference
+    try:
+        batch = next(batch for batch in sorted(batches) if batch.can_allocate(line))
+
+        batch.allocate(line)
+        return batch.reference
+    except StopIteration as e:
+
+        raise OutOfStock(f"Out of stock for sku: {line.sku}")
