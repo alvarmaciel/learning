@@ -25,7 +25,7 @@ ipython_config.py
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-
+**/.idea
 # AWS User-specific
 .idea/**/aws.xml
 
@@ -289,3 +289,11 @@ poetry.toml
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,pycharm+all,visualstudiocode
 
 .python-version
+
+### direnv ###
+.direnv
+.envrc
+
+### JupyterNotebooks ###
+# gitignore template for Jupyter Notebooks
+# website: http://jupyter.org/
