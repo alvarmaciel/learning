@@ -13,3 +13,5 @@ A study Guide. I will read and make every excercise of [[https://www.cosmicpytho
 All notes will be made using an orgmode notebook on this repo.
 ** Repo Management
 - One branch for every chapter. Same nomenclature as the book
+** Chaper 1: Domain Model
+- Write a few unit tests to see if you can capture the essence of these business rules in nice, clean code.
