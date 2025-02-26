@@ -5,6 +5,7 @@ A study Guide. I will read and make every excercise of [[https://www.cosmicpytho
 
 ** Constrains
 - Every test will be made using pytest
+- API endpoint will be graphql
 - Instead of Flask I will use FastAPI
 - All will be Async
 - In the case that can be use more advance features it will be used (ie: pattern match, protocols)

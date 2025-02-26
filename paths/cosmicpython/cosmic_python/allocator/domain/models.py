@@ -15,8 +15,8 @@ class Batch:
     def __init__(self, ref: str, sku: str, quantity: int, eta: date | None):
         self.reference = ref
         self.sku = sku
-        self._purchased_quantity = quantity
         self.eta = eta
+        self._purchased_quantity = quantity
         self._allocations: set[LineItem] = set()
 
     def __eq__(self, other):
