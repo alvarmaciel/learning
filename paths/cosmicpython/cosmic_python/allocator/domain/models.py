@@ -4,7 +4,7 @@ from datetime import date
 class OutOfStock(Exception):
     pass
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class LineItem:
     order_id: str
     sku: str
