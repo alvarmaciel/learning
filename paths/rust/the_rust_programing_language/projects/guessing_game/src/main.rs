@@ -1,22 +1,20 @@
-use rand::Rng;
+use rand::random_range;
 use std::cmp::Ordering;
 use std::io;
 
 fn main() {
     println!("Guess the number!");
 
-    let secret_number = rand::thread_rng().gen_range(1..=100);
+    let secret_number = random_range(1..=100);
+
     loop {
+        println!("Please input your guess!");
 
-        println!("The secret number is: {secret_number}");
-
-        println!("Please input your guess.");
-
-        let mut guess = String::new();
+        let mut guess = String::new(); // new es una función asociada que crea una instancia de String en este caso unida a la variable
 
         io::stdin()
-            .read_line(&mut guess)
-            .expect("failed to read line");
+            .read_line(&mut guess) // el & incdica que este argumento es una referencia. da una forma de acceder  a una parte desde multiples lados
+            .expect("Failed to read line");
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
@@ -27,12 +25,11 @@ fn main() {
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
+            Ordering::Greater => println!("Too Big"),
             Ordering::Equal => {
-                println!("You Win!");
+                println!("You win!");
                 break;
             }
-
         }
     }
 }
