@@ -1,17 +1,19 @@
+use std::io;
+
 fn main() {
-    let mut x = 5;
-    println!("The value of x is: {x}");
-    x = 6;
-    println!("The value of x is: {x}");
+    let a = [1, 2, 3, 4, 5];
 
-    let y = 5;
+    println!("Please enter an array index.");
 
-    let y = y + 1;
+    let mut index = String::new();
 
-    {
-        let y = y * 2;
-        println!("The value of y in the inner scope is: {y}");
-    }
+    io::stdin()
+        .read_line(&mut index)
+        .expect("Failes to read line");
 
-    println!("The value of y is: {y}");
+    let index: usize = index.trim().parse().expect("index entered is not a number");
+
+    let element = a[index];
+
+    println!("The valie of the element at index {index} is {element}");
 }

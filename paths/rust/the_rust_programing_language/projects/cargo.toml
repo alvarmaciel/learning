@@ -1,0 +1,20 @@
+# learning/paths/rust/the_rust_programing_language/projects/Cargo.toml
+[workspace]
+
+members = [
+    "branches",
+    "functions",
+    "guessing_game",
+    "hello_cargo",
+    "variables",
+    "farenheit_2_celsius",
+    # Add any new project directories here
+]
+
+# Optional: Default members if you run `cargo run` from the top level
+# default-members = ["guessing_game"]
+
+# Optional: Resolve dependencies together
+[workspace.dependencies]
+# You could define common dependencies here later if needed
+# rand = "0.8"
