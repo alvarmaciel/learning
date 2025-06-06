@@ -16,15 +16,15 @@ def get_amount_of_safe_reports(report_list: list[list[int]]) -> int:
         if all(safety_report):
             safe_collector += 1
             continue
-        # else:
-        #     # remuevo cada nro y probamos
-        #     # Pruebo
-        #     new_report = report_line.copy()
-        #     for i in range(len(new_report)):
-        #         dumped_report = create_safety_report(new_report[0:i]+new_report[i+1:])
-        #         if all(dumped_report):
-        #             safe_collector += 1
-        #             break
+        else:
+            # remuevo cada nro y probamos
+            # Pruebo
+            new_report = report_line.copy()
+            for i in range(len(new_report)):
+                dumped_report = create_safety_report(new_report[0:i]+new_report[i+1:])
+                if all(dumped_report):
+                    safe_collector += 1
+                    break
 
     return safe_collector
 
@@ -62,6 +62,6 @@ def create_safety_report(report_line:list[int]) -> list[bool]:
 
 
 if __name__ == "__main__":
-    reports_list = get_reports_lines("test.txt")
+    reports_list = get_reports_lines("input.txt")
     amount_of_safe_reports = get_amount_of_safe_reports(reports_list)
     print(amount_of_safe_reports)
