@@ -16,20 +16,15 @@ def get_amount_of_safe_reports(report_list: list[list[int]]) -> int:
         if all(safety_report):
             safe_collector += 1
             continue
-        else:
-            # Por cada false, lo remuevo
-            # Pruebo
-            new_report = report_line.copy()
-            falses_index = [i for i, val in enumerate(safety_report) if not val]
-            import ipdb; ipdb.set_trace()
-            for unsafe in falses_index:
-                del new_report[unsafe]
-                dumped_report = create_safety_report(new_report)
-                print(new_report)
-                print(dumped_report)
-                if all(dumped_report):
-                    safe_collector += 1
-                    break
+        # else:
+        #     # remuevo cada nro y probamos
+        #     # Pruebo
+        #     new_report = report_line.copy()
+        #     for i in range(len(new_report)):
+        #         dumped_report = create_safety_report(new_report[0:i]+new_report[i+1:])
+        #         if all(dumped_report):
+        #             safe_collector += 1
+        #             break
 
     return safe_collector
 
@@ -39,17 +34,19 @@ def create_safety_report(report_line:list[int]) -> list[bool]:
     safety_levels = []
 
     for i, number in enumerate(report_line):
-        # check sort and order
-        crescient = all(a[i] <= a[i+1] for a in range(len(report_line - 1)))
-        # repeated or unordered item on list
-        if crescient and number <= report_line[i+1]:
-            safety_levels.append(False)
-            continue
-        if not crescient and number > report_line[i+1]:
-            safety_levels.append(False)
-            continue
 
-        if i != len(report_line[i-1]):
+        # check sort and order
+        crescient = all(report_line[a] <= report_line[a+1] for a in range(len(report_line)-1))
+        # repeated or unordered item on list
+
+        if i != len(report_line)-1:
+            if crescient and number >= report_line[i+1]:
+                safety_levels.append(False)
+                continue
+            if not crescient and number <= report_line[i+1]:
+                safety_levels.append(False)
+                continue
+
             difference = abs(number - report_line[i+1])
         else:
             difference = abs(number - report_line[i-1])
