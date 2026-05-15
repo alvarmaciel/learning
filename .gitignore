@@ -297,3 +297,6 @@ poetry.toml
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
+
+### Pyright ###
+pyrightconfig.json
