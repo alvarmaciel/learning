@@ -7,6 +7,10 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_scoped_session, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
+from ecommerce.infrastructure.database import mapper_registry
+from ecommerce.infrastructure import entity_mappings  # noqa: F401 — triggers table registration
+
+
 # Reads from env — works both locally (db on localhost) and inside Docker (db on "db" host)
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_USER = os.getenv("DB_USER", "root")
@@ -40,8 +44,6 @@ async def engine(event_loop, dbname):
     url = f"{BASE_URL}/{dbname}?charset=utf8"
     _engine = create_async_engine(url, echo=True)
 
-    from ecommerce.infrastructure import entity_mappings  # noqa: F401 — triggers table registration
-    from ecommerce.infrastructure.database import mapper_registry
     async with _engine.begin() as conn:
         await conn.run_sync(mapper_registry.metadata.create_all)
 

@@ -12,6 +12,7 @@ def test_product_entitie_mapping(dbsession):
         price_cents= 1000,
         stock = 10
     )
+    assert isinstance(product, Product)
     # Excecise: add to the db and create a query to the db
     dbsession.add(product)
     dbsession.commit()
