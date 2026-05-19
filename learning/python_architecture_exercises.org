@@ -311,7 +311,8 @@ mapper_registry = registry()
 
 * TODO Conceptual Foundation — Read Before Exercising
 
-** Why layers?
+** DONE Why layers?
+CLOSED: [2026-05-19 Tue 08:46]
 
 The architecture has three layers:
 
@@ -323,10 +324,16 @@ infrastructure/← SQLAlchemy tables, repos, UoW. Implements domain interfaces.
 
 *Rule:* inner layers never import from outer layers.
 =domain/= never imports from =infrastructure/= or =application/=.
+
 The hierarchy order of the layers is:
+
 Domain -> application -> infra
-Busnies logic -> use-cases, gql -> db
-** Why Unit of Work (UoW)?
+
+
+Business logic -> use-cases, gql -> db
+
+** DONE Why Unit of Work (UoW)?
+CLOSED: [2026-05-19 Tue 08:58]
 
 The UoW is a context manager that groups all DB operations into a single transaction.
 It owns the session and all repos. When the block exits cleanly → commit. On exception → rollback.
@@ -340,7 +347,8 @@ async with uow:
 
 Without UoW, you'd pass sessions around everywhere, making transactions hard to reason about.
 
-** Why QuerySpec?
+** DONE Why QuerySpec?
+CLOSED: [2026-05-19 Tue 09:00]
 
 A QuerySpec is a *query object* — it encapsulates a specific database query as a class.
 
@@ -365,7 +373,8 @@ runner = AsyncSQLAlchemyQuerySpecRunner(session)
 products = await runner.get_all(ProductsByCategoryQuery("electronics"))
 #+end_src
 
-** Why two definitions of the same type?
+** DONE Why two definitions of the same type?
+CLOSED: [2026-05-19 Tue 09:00]
 
 You'll see =Product= defined twice:
 - =domain/entities.py= — =@dataclass=. Pure Python. No GraphQL, no SQLAlchemy.
@@ -373,7 +382,7 @@ You'll see =Product= defined twice:
 
 This is intentional. The domain doesn't know GraphQL exists. If tomorrow you add a REST API, the domain works unchanged.
 
-* TODO Exercise 1 — ORM Entities + Migration
+* NEXT Exercise 1 — ORM Entities + Migration
 
 *Goal:* Understand how SQLAlchemy's imperative mapping works and how Alembic creates tables.
 
